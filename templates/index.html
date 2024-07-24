@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width", initial-scale="1.0">
+        <title>Hangman</title>
+        <link rel="stylesheet" href="{{url_for('static',  filename='styles.css')}}">
+    </head>
+    <body>
+        <div class="container">
+            <h1>Hangman Game</h1>
+            <p>Word: {{word_disp}}</p>
+            <p>Guesses: {{session.guessct}}</p>
+            <p>Misses: {{session.miss}}</p>
+            <p>{{message}}</p>
+
+            {% if '_' not in word_disp %}
+                <p>Congrats! You won!</p>
+                <a href="{{url_for('reset')}}">Play Again?</a>
+            {% elif session.miss >= 8 %}
+                <p>Sorry! You Lost! The word was {{session.word}} </p>
+                <a href="{{url_for('reset')}}">Try Again?</a>
+            {% else %}
+                <form action="{{url_for('guess')}}" method="POST">
+                    <input type="text" name="guess" maxlength="1" required>
+                    <button type="submit">Guess</button>
+                </form>
+            {% endif %}
+        </div>
+    </body>
+</html>
